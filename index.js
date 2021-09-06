@@ -13,6 +13,11 @@ mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true, useUnifiedTopo
 })
 
 // middleware
+app.use(express.json());
+app.use(helmet());
+app.use(morgan("common"))
+
+
 
 
 app.listen(8800, () => {
