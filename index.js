@@ -10,7 +10,7 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const router = express.Router();
 const path = require("path");
-const cors = require('cors')
+const cors = require("cors");
 
 dotenv.config();
 
@@ -52,6 +52,6 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log("Backend server is running!");
 });
