@@ -4,20 +4,33 @@ const bcrypt = require("bcrypt");
 
 router.post("/register", async (req, res) => {
   try {
-    // genrate new password
+    // Encrypting password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-    // genrate new user
+    // Create new user
     const newUser = new User({
-      userName: req.body.userName,
+      username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
     });
 
-    // save user and return respond
+    // Save user in DB
     const user = await newUser.save();
-    res.status(200).json(user);
+
+    // Returning Response
+    res.status(200).json({
+      username: user.username,
+      email: user.email,
+      profilePicture: user.profilePicture,
+      coverPicture: user.coverPicture,
+      followers: user.followers,
+      followings: user.followings,
+      isAdmin: user.isAdmin,
+      _id: user._id,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -33,7 +46,7 @@ router.post("/login", async (req, res) => {
       req.body.password,
       user.password
     );
-    !validPassword && res.status(400).json("wrong password");
+    !validPassword && res.status(400).json("Wrong Password");
 
     res.status(200).json(user);
   } catch (err) {
